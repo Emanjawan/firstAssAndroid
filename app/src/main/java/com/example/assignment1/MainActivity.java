@@ -14,10 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-EditText num1;
-EditText num2;
-Spinner sp;
-Button btn;
+    EditText num1;
+    EditText num2;
+    Spinner sp;
+    Button btn;
     EditText result;
 
     Button distance;
@@ -32,7 +32,7 @@ Button btn;
     EditText edittextResultphysics;
     EditText decription;
 
-LinearLayout linear1;
+    LinearLayout linear1;
     LinearLayout linear2;
     LinearLayout linear3;
     LinearLayout linear4;
@@ -42,50 +42,47 @@ LinearLayout linear1;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        num1=findViewById(R.id.number1);
-        num2=findViewById(R.id.number2);
-        sp=findViewById(R.id.spinner);
-        btn=findViewById(R.id.calculator);
-        result=findViewById(R.id.result);
-        distance=findViewById(R.id.distance);
-        speed=findViewById(R.id.speed);
-        time=findViewById(R.id.time);
-        text1=findViewById(R.id.textphysics1);
-        editText1=findViewById(R.id.editphsics1);
-        text2=findViewById(R.id.textphysics2);
-        editText2=findViewById(R.id.editphsics2);
-        calculator2=findViewById(R.id.calculator2);
-        edittextResultphysics=findViewById(R.id.textresult2);
-        decription=findViewById(R.id.editTextTextMultiLine);
-        linear1=findViewById(R.id.linear1);
-        linear2=findViewById(R.id.linear2);
-        linear3=findViewById(R.id.linear3);
-        linear4=findViewById(R.id.linear4);
-textphysics=findViewById(R.id.textphysics);
+        num1 = findViewById(R.id.number1);
+        num2 = findViewById(R.id.number2);
+        sp = findViewById(R.id.spinner);
+        btn = findViewById(R.id.calculator);
+        result = findViewById(R.id.result);
+        distance = findViewById(R.id.distance);
+        speed = findViewById(R.id.speed);
+        time = findViewById(R.id.time);
+        text1 = findViewById(R.id.textphysics1);
+        editText1 = findViewById(R.id.editphsics1);
+        text2 = findViewById(R.id.textphysics2);
+        editText2 = findViewById(R.id.editphsics2);
+        calculator2 = findViewById(R.id.calculator2);
+        edittextResultphysics = findViewById(R.id.textresult2);
+        decription = findViewById(R.id.editTextTextMultiLine);
+        linear1 = findViewById(R.id.linear1);
+        linear2 = findViewById(R.id.linear2);
+        linear3 = findViewById(R.id.linear3);
+        linear4 = findViewById(R.id.linear4);
+        textphysics = findViewById(R.id.textphysics);
 
-        decription.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if(view.getId()==R.id.editTextTextMultiLine){
+        decription.setOnTouchListener((view, motionEvent) -> {
+            if (view.getId() == R.id.editTextTextMultiLine) {
 
-                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                view.getParent().requestDisallowInterceptTouchEvent(true);
 
-                    switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-                        case MotionEvent.ACTION_UP: view.getParent().requestDisallowInterceptTouchEvent(false);
-                            break;
-                    }
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
                 }
-
-
-
-                return false;
             }
+
+
+            return false;
         });
 
 
-        String[] types= {"+","-","x","/"};
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,types); //this is dynamic not staticly
+        mathOperation mathOperation = new mathOperation();
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mathOperation.operation()); //this is dynamic not staticly
 
         sp.setAdapter(adapter);
 
@@ -93,47 +90,22 @@ textphysics=findViewById(R.id.textphysics);
             @Override
             public void onClick(View view) {
 
-                if(num1.getText().toString().equals("")){
+                if (num1.getText().toString().equals("")) {
 
                     Toast.makeText(MainActivity.this, "Error!! the number1 is empty", Toast.LENGTH_SHORT).show();
-                }
-                else if(num2.getText().toString().equals("")){
+                } else if (num2.getText().toString().equals("")) {
 
                     Toast.makeText(MainActivity.this, "Error!! the number2 is empty", Toast.LENGTH_SHORT).show();
-                }
-               else if(num1.getText().toString().equals("") &&  num2.getText().toString().equals("") ){
+                } else if (num1.getText().toString().equals("") && num2.getText().toString().equals("")) {
 
                     Toast.makeText(MainActivity.this, "Error!! the number1 and number2 are empty", Toast.LENGTH_SHORT).show();
-                }
-               else {
+                } else {
 
-                    final Double number1=Double.parseDouble( num1.getText().toString());
-                    final Double number2=Double.parseDouble(num2.getText().toString().trim());
-                    switch (sp.getSelectedItem().toString()) {
-                        case "+": {
-                            double num3 = number1 + number2;
-                            result.setText(num3+"");
-                            break;
+                    final Double number1 = Double.parseDouble(num1.getText().toString());
+                    final Double number2 = Double.parseDouble(num2.getText().toString().trim());
+                    Double resultmath = mathOperation.resultCalculate(number1, number2, sp.getSelectedItem().toString());
+                    result.setText(resultmath + "");
 
-                        }
-                        case "x": {
-                            result.setText((number1 * number2)+"");
-                            break;
-
-                        }case "-": {
-                            result.setText((Math.abs(number1 - number2))+"");
-                            break;
-
-                        }case "/": {
-                            result.setText((number1 / number2)+"");
-                            break;
-                        }
-                        default:
-                            result.setText("error");
-
-
-
-                    }
 
                 }
 
@@ -141,31 +113,30 @@ textphysics=findViewById(R.id.textphysics);
         });
 
 
+        distance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textphysics.setVisibility(View.VISIBLE);
+                textphysics.setText("Distance");
+                linear1.setVisibility(View.VISIBLE);
+                text1.setText("Speed :");
+                editText1.setHint("In meter/sec");
+                editText1.setText("");
 
-distance.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
-        textphysics.setVisibility(View.VISIBLE);
-        textphysics.setText("Distance");
-linear1.setVisibility(View.VISIBLE);
-text1.setText("Speed :");
-editText1.setHint("In meter/sec");
-        editText1.setText("");
+                text2.setText("Time :");
+                editText2.setText("");
 
-text2.setText("Time :");
-        editText2.setText("");
+                editText2.setHint("In sec");
+                calculator2.setVisibility(View.VISIBLE);
+                linear2.setVisibility(View.VISIBLE);
+                linear3.setVisibility(View.VISIBLE);
+                linear4.setVisibility(View.VISIBLE);
+                linear4.requestFocus();
+                edittextResultphysics.setText("");
+                decription.setText("");
 
-        editText2.setHint("In sec");
-        calculator2.setVisibility(View.VISIBLE);
-        linear2.setVisibility(View.VISIBLE);
-        linear3.setVisibility(View.VISIBLE);
-        linear4.setVisibility(View.VISIBLE);
-        linear4.requestFocus();
-        edittextResultphysics.setText("");
-        decription.setText("");
-
-    }
-});
+            }
+        });
 
 
         speed.setOnClickListener(new View.OnClickListener() {
@@ -181,7 +152,7 @@ text2.setText("Time :");
                 editText1.setText("");
                 editText2.setHint("In sec");
                 editText2.setText("");
-calculator2.setVisibility(View.VISIBLE);
+                calculator2.setVisibility(View.VISIBLE);
                 linear2.setVisibility(View.VISIBLE);
                 linear3.setVisibility(View.VISIBLE);
                 linear4.setVisibility(View.VISIBLE);
@@ -220,79 +191,66 @@ calculator2.setVisibility(View.VISIBLE);
         });
 
 
-        calculator2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                physics physics=new physics();
+        calculator2.setOnClickListener(view -> {
+            physics physics = new physics();
 //
-                if(textphysics.getText().toString().toLowerCase().equals("Distance".toLowerCase())){
-                    System.out.println();
+            if (textphysics.getText().toString().toLowerCase().equals("Distance".toLowerCase())) {
+                System.out.println();
 
-                    if (editText1.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
+                if (editText1.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else if(editText2.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
+                } else if (editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
-                        Toast.makeText(MainActivity.this, "Error!! the speed and time are empty", Toast.LENGTH_SHORT).show();
+                } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the speed and time are empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
-                        edittextResultphysics.setText(String.valueOf(physics.distance(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString()))));
-                        decription.setText( physics.distanceDetails(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString())));
-                        linear4.requestFocus();
-
-                    }
-
-
+                } else {
+                    edittextResultphysics.setText(String.valueOf(physics.distance(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
+                    decription.setText(physics.distanceDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
+                    linear4.requestFocus();
 
                 }
-                else if(textphysics.getText().toString().equals("Speed")){
-                    if (editText1.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else if(editText2.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
 
-                    } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
-                        Toast.makeText(MainActivity.this, "Error!! the distance and time are empty", Toast.LENGTH_SHORT).show();
+            } else if (textphysics.getText().toString().equals("Speed")) {
+                if (editText1.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
-                        edittextResultphysics.setText(String.valueOf(physics.speed(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString()))));
-                        decription.setText( physics.speedDetails(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString())));
-                        linear4.requestFocus();
+                } else if (editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
 
-                    }
+                } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the distance and time are empty", Toast.LENGTH_SHORT).show();
 
+                } else {
+                    edittextResultphysics.setText(String.valueOf(physics.speed(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
+                    decription.setText(physics.speedDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
+                    linear4.requestFocus();
 
                 }
-                else if(textphysics.getText().toString().equals("Time")){
-                    if (editText1.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else if(editText2.getText().toString().equals("")){
-                        Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
 
-                    } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
-                        Toast.makeText(MainActivity.this, "Error!! the distance and speed are empty", Toast.LENGTH_SHORT).show();
+            } else if (textphysics.getText().toString().equals("Time")) {
+                if (editText1.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
 
-                    }
-                    else{
-                        edittextResultphysics.setText(String.valueOf(physics.time(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString()))));
-                        decription.setText( physics.timeDetails(Double.parseDouble(editText1.getText().toString()),Double.parseDouble(editText2.getText().toString())));
-                        linear4.requestFocus();
+                } else if (editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
 
-                    }
+                } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
+                    Toast.makeText(MainActivity.this, "Error!! the distance and speed are empty", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    edittextResultphysics.setText(String.valueOf(physics.time(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
+                    decription.setText(physics.timeDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
+                    linear4.requestFocus();
 
                 }
 
             }
+
         });
     }
 }
