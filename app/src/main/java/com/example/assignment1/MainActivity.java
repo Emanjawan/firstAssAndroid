@@ -205,13 +205,16 @@ public class MainActivity extends AppCompatActivity {
 
                 if (editText1.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the speed and time are empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else {
                     edittextResultphysics.setText(String.valueOf(physics.distance(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
                     decription.setText(physics.distanceDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
@@ -223,13 +226,16 @@ public class MainActivity extends AppCompatActivity {
             } else if (textphysics.getText().toString().equals("Speed")) {
                 if (editText1.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the time is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the distance and time are empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else {
                     edittextResultphysics.setText(String.valueOf(physics.speed(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
                     decription.setText(physics.speedDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
@@ -241,13 +247,16 @@ public class MainActivity extends AppCompatActivity {
             } else if (textphysics.getText().toString().equals("Time")) {
                 if (editText1.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the distance is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the speed is empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else if (editText1.getText().toString().equals("") && editText2.getText().toString().equals("")) {
                     Toast.makeText(MainActivity.this, "Error!! the distance and speed are empty", Toast.LENGTH_SHORT).show();
-
+                    decription.setText("");
+                    edittextResultphysics.setText("");
                 } else {
                     edittextResultphysics.setText(String.valueOf(physics.time(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
                     decription.setText(physics.timeDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
