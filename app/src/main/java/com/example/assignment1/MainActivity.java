@@ -93,12 +93,18 @@ public class MainActivity extends AppCompatActivity {
                 if (num1.getText().toString().equals("")) {
 
                     Toast.makeText(MainActivity.this, "Error!! the number1 is empty", Toast.LENGTH_SHORT).show();
+                    result.setText("");
                 } else if (num2.getText().toString().equals("")) {
 
+
                     Toast.makeText(MainActivity.this, "Error!! the number2 is empty", Toast.LENGTH_SHORT).show();
+                    result.setText("");
+
                 } else if (num1.getText().toString().equals("") && num2.getText().toString().equals("")) {
 
                     Toast.makeText(MainActivity.this, "Error!! the number1 and number2 are empty", Toast.LENGTH_SHORT).show();
+                    result.setText("");
+
                 } else {
 
                     final Double number1 = Double.parseDouble(num1.getText().toString());
