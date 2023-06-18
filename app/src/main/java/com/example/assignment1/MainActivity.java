@@ -384,7 +384,7 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         arrayList.add(new print(name, result));
         String json = gson.toJson(arrayList);
-        editor.putString("Student_Data", json);
+        editor.putString("Data", json);
         editor.apply();
         loadData();
 
@@ -394,9 +394,10 @@ public class MainActivity extends AppCompatActivity {
     private void loadData() {
         SharedPreferences pref = getApplicationContext().getSharedPreferences("DATA", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = pref.getString("Student_Data", null);
+        String json = pref.getString("Data", null);
         Type type = new TypeToken<ArrayList<print>>() {
         }.getType();
+
         arrayList = gson.fromJson(json, type);
     }
 }
