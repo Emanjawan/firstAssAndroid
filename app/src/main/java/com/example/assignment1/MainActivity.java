@@ -379,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
                     CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
                     recycler.setAdapter(adapter1);
                     Toast.makeText(this, "The data is saved in Data List.", Toast.LENGTH_SHORT).show();
-//               "d"
+
                 }
 
             }
