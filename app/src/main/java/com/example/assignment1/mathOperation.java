@@ -54,5 +54,41 @@ public class mathOperation {
         }
         return 0;
     }
+    public String resultCalculatePrint(double number1, double number2, String operation){
+        if(operation.equals("+")){
+
+            return "*) Sum =\nNumber 1 + Number 2.\n\n  = "+number1+" + "+number2+"\n\n  = "+(number1+number2)+"\n\n";
+
+
+
+        }
+        else if(operation.equals("-")){
+
+            return "*) Minus =\nNumber 1 - Number 2.\n\n  = "+number1+" - "+number2+"\n\n  = "+(number1-number2)+"\n\n";
+
+
+
+        }
+
+       else if(operation.equals("x")){
+
+            return "*) Cross =\nNumber 1 x Number 2.\n\n  = "+number1+" x "+number2+"\n\n  = "+(number1*number2)+"\n\n";
+
+
+
+        }
+       else if(operation.equals("/")){
+
+            return "*) Div =\nNumber 1 / Number 2.\n\n  = "+number1+" / "+number2+"\n\n  = "+(number1/number2)+"\n\n";
+
+
+
+        }
+else{
+
+    return null;
+        }
+
+    }
 
 }

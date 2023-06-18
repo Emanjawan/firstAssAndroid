@@ -1,7 +1,11 @@
 package com.example.assignment1;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     EditText num1;
@@ -36,11 +46,13 @@ public class MainActivity extends AppCompatActivity {
     LinearLayout linear2;
     LinearLayout linear3;
     LinearLayout linear4;
-
+    ArrayList<print> arrayList=new ArrayList<>();
+    RecyclerView recycler ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("ggfgg");
         setContentView(R.layout.activity_main);
         num1 = findViewById(R.id.number1);
         num2 = findViewById(R.id.number2);
@@ -62,6 +74,59 @@ public class MainActivity extends AppCompatActivity {
         linear3 = findViewById(R.id.linear3);
         linear4 = findViewById(R.id.linear4);
         textphysics = findViewById(R.id.textphysics);
+        RecyclerView recycler = findViewById(R.id.recycler);
+
+
+        loadData();
+//
+        if(arrayList==null) {
+            arrayList = new ArrayList<>();
+            print p = new print();
+
+            System.out.println(arrayList.size());
+            String[] captions = new String[1];
+            String[] results = new String[1];
+            captions[0] = p.getName();
+            results[0] = p.getResult();
+            recycler.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+            CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions, results);
+            recycler.setAdapter(adapter1);
+        }
+        else {
+
+            String[] captions = new String[arrayList.size()];
+            String[] results = new String[arrayList.size()];
+
+
+            for(int i = 0; i<captions.length;i++){
+                captions[i] = arrayList.get(i).getName();
+                results[i] = arrayList.get(i).getResult();
+
+            }
+            recycler.setLayoutManager(new LinearLayoutManager(this));
+            CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
+            recycler.setAdapter(adapter1);
+        }
+
+
+
+
+        decription.setOnTouchListener((view, motionEvent) -> {
+            if (view.getId() == R.id.editTextTextMultiLine) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+            }
+
+
+            return false;
+        });
 
         decription.setOnTouchListener((view, motionEvent) -> {
             if (view.getId() == R.id.editTextTextMultiLine) {
@@ -111,7 +176,18 @@ public class MainActivity extends AppCompatActivity {
                     final Double number2 = Double.parseDouble(num2.getText().toString().trim());
                     Double resultmath = mathOperation.resultCalculate(number1, number2, sp.getSelectedItem().toString());
                     result.setText(resultmath + "");
+                    saveData(sp.getSelectedItem().toString(),mathOperation.resultCalculatePrint(number1, number2, sp.getSelectedItem().toString()));
+                    String[] captions = new String[arrayList.size()];
+                    String[] results = new String[arrayList.size()];
 
+
+                    for(int i = 0; i<captions.length;i++){
+                        captions[i] = arrayList.get(i).getName();
+                        results[i] = arrayList.get(i).getResult();
+
+                    }
+                    CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
+                    recycler.setAdapter(adapter1);
 
                 }
 
@@ -219,7 +295,18 @@ public class MainActivity extends AppCompatActivity {
                     edittextResultphysics.setText(String.valueOf(physics.distance(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
                     decription.setText(physics.distanceDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
                     linear4.requestFocus();
+                    saveData(textphysics.getText().toString(),decription.getText().toString());
+                    String[] captions = new String[arrayList.size()];
+                    String[] results = new String[arrayList.size()];
 
+
+                    for(int i = 0; i<captions.length;i++){
+                        captions[i] = arrayList.get(i).getName();
+                        results[i] = arrayList.get(i).getResult();
+
+                    }
+                    CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
+                    recycler.setAdapter(adapter1);
                 }
 
 
@@ -240,7 +327,18 @@ public class MainActivity extends AppCompatActivity {
                     edittextResultphysics.setText(String.valueOf(physics.speed(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString()))));
                     decription.setText(physics.speedDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
                     linear4.requestFocus();
+                    saveData(textphysics.getText().toString(),decription.getText().toString());
+                    String[] captions = new String[arrayList.size()];
+                    String[] results = new String[arrayList.size()];
 
+
+                    for(int i = 0; i<captions.length;i++){
+                        captions[i] = arrayList.get(i).getName();
+                        results[i] = arrayList.get(i).getResult();
+
+                    }
+                    CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
+                    recycler.setAdapter(adapter1);
                 }
 
 
@@ -262,10 +360,43 @@ public class MainActivity extends AppCompatActivity {
                     decription.setText(physics.timeDetails(Double.parseDouble(editText1.getText().toString()), Double.parseDouble(editText2.getText().toString())));
                     linear4.requestFocus();
 
+                    saveData(textphysics.getText().toString(),decription.getText().toString());
+                    String[] captions = new String[arrayList.size()];
+                    String[] results = new String[arrayList.size()];
+
+
+                    for(int i = 0; i<captions.length;i++){
+                        captions[i] = arrayList.get(i).getName();
+                        results[i] = arrayList.get(i).getResult();
+
+                    }
+                    CaptionedImagesAdapter adapter1 = new CaptionedImagesAdapter(captions,results);
+                    recycler.setAdapter(adapter1);
                 }
 
             }
 
         });
+    }
+    private void saveData(String name, String result) {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("DATA", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        arrayList.add(new print(name, result));
+        String json = gson.toJson(arrayList);
+        editor.putString("Student_Data", json);
+        editor.apply();
+        loadData();
+
+    }
+
+//
+    private void loadData() {
+        SharedPreferences pref = getApplicationContext().getSharedPreferences("DATA", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("Student_Data", null);
+        Type type = new TypeToken<ArrayList<print>>() {
+        }.getType();
+        arrayList = gson.fromJson(json, type);
     }
 }
