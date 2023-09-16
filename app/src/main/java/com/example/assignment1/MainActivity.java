@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("ggfgg");
         setContentView(R.layout.activity_main);
         num1 = findViewById(R.id.number1);
         num2 = findViewById(R.id.number2);
